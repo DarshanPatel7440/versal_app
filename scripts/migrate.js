@@ -1,8 +1,6 @@
 'use strict';
 
 require('dotenv').config();
-
-// Allow connections to databases with self-signed certificates
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 const fs = require('fs');
@@ -29,7 +27,6 @@ async function runMigrations() {
     process.exit(1);
   }
 
-  // Read all .sql files sorted alphabetically
   const files = fs.readdirSync(migrationsDir)
     .filter(f => f.endsWith('.sql'))
     .sort();

@@ -1,27 +1,20 @@
 {
   "name": "global-payment-service",
   "version": "1.0.0",
-  "description": "Global Payment Service for Talk2Tally - Razorpay integration, subscriptions, and billing",
-  "main": "src/index.js",
+  "description": "Global Payment Service for MobiOffice - Razorpay integration, subscriptions, and billing",
+  "private": true,
   "scripts": {
-    "start": "node src/index.js",
-    "test": "jest --forceExit",
-    "migrate": "node src/migrate.js"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "migrate": "node scripts/migrate.js"
   },
   "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.21.0",
-    "node-cron": "^3.0.3",
+    "next": "^14.2.0",
     "pg": "^8.13.1",
-    "razorpay": "^2.9.4",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
     "uuid": "^11.1.0"
-  },
-  "devDependencies": {
-    "fast-check": "^3.23.2",
-    "jest": "^29.7.0",
-    "nock": "^13.5.0",
-    "supertest": "^7.0.0"
   },
   "engines": {
     "node": ">=18.0.0"
