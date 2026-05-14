@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Successful</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 48px 40px;
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      animation: slideUp 0.6s ease-out;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      background: #4caf50;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      animation: scaleIn 0.4s ease-out 0.3s both;
+    }
+
+    @keyframes scaleIn {
+      from {
+        transform: scale(0);
+      }
+      to {
+        transform: scale(1);
+      }
+    }
+
+    .success-icon svg {
+      width: 40px;
+      height: 40px;
+      stroke: #ffffff;
+      stroke-width: 3;
+      fill: none;
+    }
+
+    .checkmark-path {
+      stroke-dasharray: 50;
+      stroke-dashoffset: 50;
+      animation: drawCheck 0.5s ease-out 0.6s forwards;
+    }
+
+    @keyframes drawCheck {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    h1 {
+      font-size: 26px;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 12px;
+    }
+
+    .message {
+      font-size: 16px;
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+
+    .payment-details {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 32px;
+      text-align: left;
+    }
+
+    .payment-details .detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .payment-details .detail-row:last-child {
+      border-bottom: none;
+    }
+
+    .detail-row .label {
+      font-size: 14px;
+      color: #777;
+    }
+
+    .detail-row .value {
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .status-badge {
+      display: inline-block;
+      background: #e8f5e9;
+      color: #2e7d32;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+
+    .btn-home {
+      display: inline-block;
+      width: 100%;
+      padding: 16px 32px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-home:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-home:active {
+      transform: translateY(0);
+    }
+
+    .footer-text {
+      margin-top: 20px;
+      font-size: 13px;
+      color: #999;
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 36px 24px;
+      }
+
+      h1 {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="success-icon">
+      <svg viewBox="0 0 24 24">
+        <polyline class="checkmark-path" points="6 12 10 16 18 8"></polyline>
+      </svg>
+    </div>
+
+    <h1>Payment Successful!</h1>
+    <p class="message">
+      Your payment has been processed successfully. Your subscription is now active.
+    </p>
+
+    <div class="payment-details" id="paymentDetails">
+      <div class="detail-row">
+        <span class="label">Status</span>
+        <span class="value"><span class="status-badge">Paid</span></span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Transaction ID</span>
+        <span class="value" id="txnId">—</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Amount</span>
+        <span class="value" id="txnAmount">—</span>
+      </div>
+    </div>
+
+    <a href="https://www.mobiofficehq.com/" class="btn-home" id="homeBtn">
+      Done — Go to Home
+    </a>
+
+    <p class="footer-text">Thank you for choosing MobiOffice</p>
+  </div>
+
+  <script>
+    // Parse URL query parameters to display payment details
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+
+      const paymentId = params.get('razorpay_payment_id') || params.get('payment_id');
+      const amount = params.get('amount');
+
+      if (paymentId) {
+        document.getElementById('txnId').textContent = paymentId;
+      }
+
+      if (amount) {
+        // amount is in paise, convert to rupees
+        const rupees = (parseInt(amount, 10) / 100).toFixed(2);
+        document.getElementById('txnAmount').textContent = '₹' + rupees;
+      }
+    })();
+  </script>
+</body>
+</html>
