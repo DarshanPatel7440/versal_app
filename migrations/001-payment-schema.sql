@@ -50,9 +50,9 @@ CREATE TABLE IF NOT EXISTS plans (
     created_at          TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- Seed default Talk2Tally monthly plan (₹1,000 = 100000 paise, 30-day cycle)
+-- Seed default Talk2Tally monthly plan (₹1 = 100 paise, 30-day cycle) — TEST PRICING
 INSERT INTO plans (product, plan_name, amount_paise, billing_cycle_days, description)
-VALUES ('talk2tally', 'monthly', 100000, 30, 'Talk2Tally Monthly - ₹1,000/month')
+VALUES ('talk2tally', 'monthly', 100, 30, 'Talk2Tally Monthly - ₹1/month (TEST)')
 ON CONFLICT DO NOTHING;
 
 -- =============================================================================

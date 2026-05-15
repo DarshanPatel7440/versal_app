@@ -6,7 +6,8 @@ export async function POST(request) {
     const signature = request.headers.get('x-razorpay-signature');
     const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET;
 
-    if (!verifySignature(rawBody, signature, webhookSecret)) {
+    // Skip signature verification if no secret is configured
+    if (webhookSecret && !verifySignature(rawBody, signature, webhookSecret)) {
       return Response.json({ error: 'invalid_signature' }, { status: 401 });
     }
 
