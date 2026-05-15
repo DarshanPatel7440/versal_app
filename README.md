@@ -4,7 +4,7 @@ Centralized payment and subscription management service for Talk2Tally. Handles 
 
 ## Overview ##
 
-This service provides:
+This service provides:  
 
 - **Trial Subscriptions** — Automatic 7-day trial creation per device/product
 - **Payment Links** — Razorpay payment link generation with 24-hour expiry
