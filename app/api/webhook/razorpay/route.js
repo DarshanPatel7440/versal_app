@@ -7,7 +7,7 @@ export async function POST(request) {
     const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET;
 
     // Skip signature verification if no secret is configured
-    if (webhookSecret && !verifySignature(rawBody, signature, webhookSecret)) {
+    if (webhookSecret && webhookSecret.length > 0 && !verifySignature(rawBody, signature, webhookSecret)) {
       return Response.json({ error: 'invalid_signature' }, { status: 401 });
     }
 
